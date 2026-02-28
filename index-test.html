@@ -1,0 +1,1422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oscars 2026 Ballot</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 5px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .header p {
+            font-size: 1em;
+            opacity: 0.95;
+        }
+
+        .content {
+            padding: 20px;
+        }
+
+        .category {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .category:last-child {
+            border-bottom: none;
+        }
+
+        .category-title {
+            font-size: 1.3em;
+            font-weight: 600;
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+
+        .nominees {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .nominee-option {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .nominee-option:hover {
+            background-color: #f5f5f5;
+            border-color: #667eea;
+        }
+
+        .nominee-option input[type="radio"] {
+            cursor: pointer;
+            width: 20px;
+            height: 20px;
+            margin-right: 15px;
+            accent-color: #667eea;
+        }
+
+        .nominee-option.selected {
+            background-color: #f0f0ff;
+            border-color: #667eea;
+            font-weight: 600;
+        }
+
+        .nominee-label {
+            cursor: pointer;
+            flex-grow: 1;
+            user-select: none;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid #f0f0f0;
+        }
+
+        button {
+            flex: 1;
+            padding: 12px 20px;
+            font-size: 1em;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .btn-submit {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-reset {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .btn-reset:hover {
+            background: #e0e0e0;
+        }
+
+        .message {
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 600;
+            display: none;
+        }
+
+        .message.success {
+            background: #d4edda;
+            color: #155724;
+            display: block;
+        }
+
+        .progress {
+            margin-bottom: 20px;
+            padding: 10px;
+            background: #f0f0f0;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 600;
+            color: #667eea;
+        }
+
+        @media (max-width: 600px) {
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .content {
+                padding: 15px;
+            }
+
+            .category-title {
+                font-size: 1.1em;
+            }
+
+            .nominee-option {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏆 OSCARS 2026</h1>
+            <p>Cast Your Votes!</p>
+        </div>
+        
+        <div class="content">
+            <div class="progress" id="progress"></div>
+
+            <!-- Voter Name Section -->
+            <div style="background: #f9f9f9; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+                <label for="voter-name" style="display: block; font-weight: 600; margin-bottom: 10px; color: #333;">Your Name:</label>
+                <input type="text" id="voter-name" placeholder="Enter your name" style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1em;">
+            </div>
+            
+            <form id="ballot-form">
+                <!-- Actor in a Leading Role -->
+                <div class="category">
+                    <div class="category-title">Actor in a Leading Role</div>
+                    <div class="nominees">
+                        <label class="nominee-option">
+                            <input type="radio" name="actor-lead" value="Timothée Chalamet, Marty Supreme">
+                            <span class="nominee-label">Timothée Chalamet - Marty Supreme</span>
+                        </label>
+                        <label class="nominee-option">
+                            <input type="radio" name="actor-lead" value="Leonardo DiCaprio, One Battle After Another">
+                            <span class="nominee-label">Leonardo DiCaprio - One Battle After Another</span>
+                        </label>
+                        <label class="nominee-option">
+                            <input type="radio" name="actor-lead" value="Ethan Hawke, Blue Moon">
+                            <span class="nominee-label">Ethan Hawke - Blue Moon</span>
+                        </label>
+                        <label class="nominee-option">
+                            <input type="radio" name="actor-lead" value="Michael B. Jordan, Sinners">
+                            <span class="nominee-label">Michael B. Jordan - Sinners</span>
+                        </label>
+                        <label class="nominee-option">
+                            <input type="radio" name="actor-lead" value="Wagner Moura, The Secret Agent">
+                            <span class="nominee-label">Wagner Moura - The Secret Agent</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Actress in a Leading Role -->
+                <div class="category">
+                    <div class="category-title">Actress in a Leading Role</div>
+                    <div class="nominees">
+                        <label class="nominee-option">
+                            <input type="radio" name="actress-lead" value="Jessie Buckley, Hamnet">
+                            <span class="nominee-label">Jessie Buckley - Hamnet</span>
+                        </label>
+                        <label class="nominee-option">
+                            <input type="radio" name="actress-lead" value="Rose Byrne, If I Had Legs I'd Kick You">
+                            <span class="nominee-label">Rose Byrne - If I Had Legs I'd Kick You</span>
+                        </label>
+                        <label class="nominee-option">
+                            <input type="radio" name="actress-lead" value="Kate Hudson, Song Sung Blue">
+                            <span class="nominee-label">Kate Hudson - Song Sung Blue</span>
+                        </label>
+                        <label class="nominee-option">
+                            <input type="radio" name="actress-lead" value="Renate Reinsve, Sentimental Value">
+                            <span class="nominee-label">Renate Reinsve - Sentimental Value</span>
+                        </label>
+                        <label class="nominee-option">
+                            <input type="radio" name="actress-lead" value="Emma Stone, Bugonia">
+                            <span class="nominee-label">Emma Stone - Bugonia</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Actress in a Supporting Role -->
+                <div class="category">
+                    <div class="category-title">Actress in a Supporting Role</div>
+                    <div class="nominees">
+                        <label class="nominee-option">
+                            <input type="radio" name="actress-support" value="Elle Fanning, Sentimental Value">
+                            <span class="nominee-label">Elle Fanning - Sentimental Value</span>
+                        </label>
+                        <label class="nominee-option">
+                            <input type="radio" name="actress-support" value="Inga Ibsdotter Lilleaas, Sentimental Value">
+                            <span class="nominee-label">Inga Ibsdotter Lilleaas - Sentimental Value</span>
+                        </label>
+                        <label class="nominee-option">
+                            <input type="radio" name="actress-support" value="Amy Madigan, Weapons">
+                            <span class="nominee-label">Amy Madigan - Weapons</span>
+                        </label>
+                        <label class="nominee-option">
+                            <input type="radio" name="actress-support" value="Wunmi Mosaku, Sinners">
+                            <span class="nominee-label">Wunmi Mosaku - Sinners</span>
+                        </label>
+                        <label class="nominee-option">
+                            <input type="radio" name="actress-support" value="Teyana Taylor, One Battle After Another">
+                            <span class="nominee-label">Teyana Taylor - One Battle After Another</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Actor in a Supporting Role -->
+                <div class="category">
+                    <div class="category-title">Actor in a Supporting Role</div>
+                    <div class="nominees">
+                        <label class="nominee-option">
+                            <input type="radio" name="actor-support" value="Benicio Del Toro, One Battle After Another">
+                            <span class="nominee-label">Benicio Del Toro - One Battle After Another</span>
+                        </label>
+                        <label class="nominee-option">
+                            <input type="radio" name="actor-support" value="Jacob Elordi, Frankenstein">
+                            <span class="nominee-label">Jacob Elordi - Frankenstein</span>
+                        </label>
+                        <label class="nominee-option">
+                            <input type="radio" name="actor-support" value="Delroy Lindo, Sinners">
+                            <span class="nominee-label">Delroy Lindo - Sinners</span>
+                        </label>
+                        <label class="nominee-option">
+                            <input type="radio" name="actor-support" value="Sean Penn, One Battle After Another">
+                            <span class="nominee-label">Sean Penn - One Battle After Another</span>
+                        </label>
+                        <label class="nominee-option">
+                            <input type="radio" name="actor-support" value="Stellan Skarsgård, Sentimental Value">
+                            <span class="nominee-label">Stellan Skarsgård - Sentimental Value</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Directing -->
+                <div class="category">
+                    <div class="category-title">Directing</div>
+                    <div class="nominees">
+                        <label class="nominee-option">
+                            <input type="radio" name="directing" value="Chloé Zhao, Hamnet">
+                            <span class="nominee-label">Chloé Zhao - Hamnet</span>
+                        </label>
+                        <label class="nominee-option">
+                            <input type="radio" name="directing" value="Josh Safdie, Marty Supreme">
+                            <span class="nominee-label">Josh Safdie - Marty Supreme</span>
+                        </label>
+                        <label class="nominee-option">
+                            <input type="radio" name="directing" value="Paul Thomas Anderson, One Battle After Another">
+                            <span class="nominee-label">Paul Thomas Anderson - One Battle After Another</span>
+                        </label>
+                        <label class="nominee-option">
+                            <input type="radio" name="directing" value="Joachim Trier, Sentimental Value">
+                            <span class="nominee-label">Joachim Trier - Sentimental Value</span>
+                        </label>
+                        <label class="nominee-option">
+                            <input type="radio" name="directing" value="Ryan Coogler, Sinners">
+                            <span class="nominee-label">Ryan Coogler - Sinners</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Cinematography -->
+                <div class="category">
+                    <div class="category-title">Cinematography</div>
+                    <div class="nominees">
+                        <label class="nominee-option">
+                            <input type="radio" name="cinematography" value="Frankenstein">
+                            <span class="nominee-label">Frankenstein</span>
+                        </label>
+                        <label class="nominee-option">
+                            <input type="radio" name="cinematography" value="Marty Supreme">
+                            <span class="nominee-label">Marty Supreme</span>
+                        </label>
+                        <label class="nominee-option">
+                            <input type="radio" name="cinematography" value="One Battle After Another">
+                            <span class="nominee-label">One Battle After Another</span>
+                        </label>
+                        <label class="nominee-option">
+                            <input type="radio" name="cinematography" value="Sentimental Value">
+                            <span class="nominee-label">Sentimental Value</span>
+                        </label>
+                        <label class="nominee-option">
+                            <input type="radio" name="cinematography" value="Sinners">
+                            <span class="nominee-label">Sinners</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Best Casting -->
+                <div class="category">
+                    <div class="category-title">Best Casting</div>
+                    <div class="nominees">
+                        <label class="nominee-option">
+                            <input type="radio" name="casting" value="Hamnet">
+                            <span class="nominee-label">Hamnet</span>
+                        </label>
+                        <label class="nominee-option">
+                            <input type="radio" name="casting" value="Marty Supreme">
+                            <span class="nominee-label">Marty Supreme</span>
+                        </label>
+                        <label class="nominee-option">
+                            <input type="radio" name="casting" value="One Battle After Another">
+                            <span class="nominee-label">One Battle After Another</span>
+                        </label>
+                        <label class="nominee-option">
+                            <input type="radio" name="casting" value="The Secret Agent">
+                            <span class="nominee-label">The Secret Agent</span>
+                        </label>
+                        <label class="nominee-option">
+                            <input type="radio" name="casting" value="Sinners">
+                            <span class="nominee-label">Sinners</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Animated Feature Film -->
+                <div class="category">
+                    <div class="category-title">Animated Feature Film</div>
+                    <div class="nominees">
+                        <label class="nominee-option">
+                            <input type="radio" name="animated-feature" value="Arco">
+                            <span class="nominee-label">Arco</span>
+                        </label>
+                        <label class="nominee-option">
+                            <input type="radio" name="animated-feature" value="Elio">
+                            <span class="nominee-label">Elio</span>
+                        </label>
+                        <label class="nominee-option">
+                            <input type="radio" name="animated-feature" value="KPop Demon Hunters">
+                            <span class="nominee-label">KPop Demon Hunters</span>
+                        </label>
+                        <label class="nominee-option">
+                            <input type="radio" name="animated-feature" value="Little Amélie or the Character of Rain">
+                            <span class="nominee-label">Little Amélie or the Character of Rain</span>
+                        </label>
+                        <label class="nominee-option">
+                            <input type="radio" name="animated-feature" value="Zootopia 2">
+                            <span class="nominee-label">Zootopia 2</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- International Feature Film -->
+                <div class="category">
+                    <div class="category-title">International Feature Film</div>
+                    <div class="nominees">
+                        <label class="nominee-option">
+                            <input type="radio" name="international-feature" value="The Secret Agent">
+                            <span class="nominee-label">The Secret Agent</span>
+                        </label>
+                        <label class="nominee-option">
+                            <input type="radio" name="international-feature" value="It Was Just an Accident">
+                            <span class="nominee-label">It Was Just an Accident</span>
+                        </label>
+                        <label class="nominee-option">
+                            <input type="radio" name="international-feature" value="Sentimental Value">
+                            <span class="nominee-label">Sentimental Value</span>
+                        </label>
+                        <label class="nominee-option">
+                            <input type="radio" name="international-feature" value="Sirât">
+                            <span class="nominee-label">Sirât</span>
+                        </label>
+                        <label class="nominee-option">
+                            <input type="radio" name="international-feature" value="The Voice of Hind Rajab">
+                            <span class="nominee-label">The Voice of Hind Rajab</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Documentary Feature Film -->
+                <div class="category">
+                    <div class="category-title">Documentary Feature Film</div>
+                    <div class="nominees">
+                        <label class="nominee-option">
+                            <input type="radio" name="documentary-feature" value="The Alabama Solution">
+                            <span class="nominee-label">The Alabama Solution</span>
+                        </label>
+                        <label class="nominee-option">
+                            <input type="radio" name="documentary-feature" value="Come See Me in the Good Light">
+                            <span class="nominee-label">Come See Me in the Good Light</span>
+                        </label>
+                        <label class="nominee-option">
+                            <input type="radio" name="documentary-feature" value="Cutting Through Rocks">
+                            <span class="nominee-label">Cutting Through Rocks</span>
+                        </label>
+                        <label class="nominee-option">
+                            <input type="radio" name="documentary-feature" value="Mr. Nobody Against Putin">
+                            <span class="nominee-label">Mr. Nobody Against Putin</span>
+                        </label>
+                        <label class="nominee-option">
+                            <input type="radio" name="documentary-feature" value="The Perfect Neighbor">
+                            <span class="nominee-label">The Perfect Neighbor</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Writing (Original Screenplay) -->
+                <div class="category">
+                    <div class="category-title">Writing (Original Screenplay)</div>
+                    <div class="nominees">
+                        <label class="nominee-option">
+                            <input type="radio" name="writing-original" value="Robert Kaplow, Blue Moon">
+                            <span class="nominee-label">Robert Kaplow - Blue Moon</span>
+                        </label>
+                        <label class="nominee-option">
+                            <input type="radio" name="writing-original" value="Jafar Panahi, It Was Just an Accident">
+                            <span class="nominee-label">Jafar Panahi - It Was Just an Accident</span>
+                        </label>
+                        <label class="nominee-option">
+                            <input type="radio" name="writing-original" value="Ronald Bronstein & Josh Safdie, Marty Supreme">
+                            <span class="nominee-label">Ronald Bronstein & Josh Safdie - Marty Supreme</span>
+                        </label>
+                        <label class="nominee-option">
+                            <input type="radio" name="writing-original" value="Joachim Trier & Eskil Vogt, Sentimental Value">
+                            <span class="nominee-label">Joachim Trier & Eskil Vogt - Sentimental Value</span>
+                        </label>
+                        <label class="nominee-option">
+                            <input type="radio" name="writing-original" value="Ryan Coogler, Sinners">
+                            <span class="nominee-label">Ryan Coogler - Sinners</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Writing (Adapted Screenplay) -->
+                <div class="category">
+                    <div class="category-title">Writing (Adapted Screenplay)</div>
+                    <div class="nominees">
+                        <label class="nominee-option">
+                            <input type="radio" name="writing-adapted" value="Will Tracy, Bugonia">
+                            <span class="nominee-label">Will Tracy - Bugonia</span>
+                        </label>
+                        <label class="nominee-option">
+                            <input type="radio" name="writing-adapted" value="Guillermo del Toro, Frankenstein">
+                            <span class="nominee-label">Guillermo del Toro - Frankenstein</span>
+                        </label>
+                        <label class="nominee-option">
+                            <input type="radio" name="writing-adapted" value="Chloé Zhao & Maggie O'Farrell, Hamnet">
+                            <span class="nominee-label">Chloé Zhao & Maggie O'Farrell - Hamnet</span>
+                        </label>
+                        <label class="nominee-option">
+                            <input type="radio" name="writing-adapted" value="Paul Thomas Anderson, One Battle After Another">
+                            <span class="nominee-label">Paul Thomas Anderson - One Battle After Another</span>
+                        </label>
+                        <label class="nominee-option">
+                            <input type="radio" name="writing-adapted" value="Clint Bentley & Greg Kwedar, Train Dreams">
+                            <span class="nominee-label">Clint Bentley & Greg Kwedar - Train Dreams</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Film Editing -->
+                <div class="category">
+                    <div class="category-title">Film Editing</div>
+                    <div class="nominees">
+                        <label class="nominee-option">
+                            <input type="radio" name="film-editing" value="Stephen Mirrione, F1">
+                            <span class="nominee-label">Stephen Mirrione - F1</span>
+                        </label>
+                        <label class="nominee-option">
+                            <input type="radio" name="film-editing" value="Ronald Bronstein & Josh Safdie, Marty Supreme">
+                            <span class="nominee-label">Ronald Bronstein & Josh Safdie - Marty Supreme</span>
+                        </label>
+                        <label class="nominee-option">
+                            <input type="radio" name="film-editing" value="Andy Jurgensen, One Battle After Another">
+                            <span class="nominee-label">Andy Jurgensen - One Battle After Another</span>
+                        </label>
+                        <label class="nominee-option">
+                            <input type="radio" name="film-editing" value="Olivier Bugge Coutté, Sentimental Value">
+                            <span class="nominee-label">Olivier Bugge Coutté - Sentimental Value</span>
+                        </label>
+                        <label class="nominee-option">
+                            <input type="radio" name="film-editing" value="Michael Shawver, Sinners">
+                            <span class="nominee-label">Michael Shawver - Sinners</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Music (Original Score) -->
+                <div class="category">
+                    <div class="category-title">Music (Original Score)</div>
+                    <div class="nominees">
+                        <label class="nominee-option">
+                            <input type="radio" name="music-score" value="Bugonia">
+                            <span class="nominee-label">Bugonia</span>
+                        </label>
+                        <label class="nominee-option">
+                            <input type="radio" name="music-score" value="Frankenstein">
+                            <span class="nominee-label">Frankenstein</span>
+                        </label>
+                        <label class="nominee-option">
+                            <input type="radio" name="music-score" value="Hamnet">
+                            <span class="nominee-label">Hamnet</span>
+                        </label>
+                        <label class="nominee-option">
+                            <input type="radio" name="music-score" value="One Battle After Another">
+                            <span class="nominee-label">One Battle After Another</span>
+                        </label>
+                        <label class="nominee-option">
+                            <input type="radio" name="music-score" value="Sinners">
+                            <span class="nominee-label">Sinners</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Music (Original Song) -->
+                <div class="category">
+                    <div class="category-title">Music (Original Song)</div>
+                    <div class="nominees">
+                        <label class="nominee-option">
+                            <input type="radio" name="music-song" value="Dear Me, Diane Warren: Relentless">
+                            <span class="nominee-label">"Dear Me" - Diane Warren: Relentless</span>
+                        </label>
+                        <label class="nominee-option">
+                            <input type="radio" name="music-song" value="Golden, KPop Demon Hunters">
+                            <span class="nominee-label">"Golden" - KPop Demon Hunters</span>
+                        </label>
+                        <label class="nominee-option">
+                            <input type="radio" name="music-song" value="Highest 2 Lowest, Highest 2 Lowest">
+                            <span class="nominee-label">"Highest 2 Lowest" - Highest 2 Lowest</span>
+                        </label>
+                        <label class="nominee-option">
+                            <input type="radio" name="music-song" value="I Lied To You, Sinners">
+                            <span class="nominee-label">"I Lied To You" - Sinners</span>
+                        </label>
+                        <label class="nominee-option">
+                            <input type="radio" name="music-song" value="Sweet Dreams of Joy, Viva Verdi!">
+                            <span class="nominee-label">"Sweet Dreams of Joy" - Viva Verdi!</span>
+                        </label>
+                        <label class="nominee-option">
+                            <input type="radio" name="music-song" value="Train Dreams, Train Dreams">
+                            <span class="nominee-label">"Train Dreams" - Train Dreams</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Sound -->
+                <div class="category">
+                    <div class="category-title">Sound</div>
+                    <div class="nominees">
+                        <label class="nominee-option">
+                            <input type="radio" name="sound" value="F1">
+                            <span class="nominee-label">F1</span>
+                        </label>
+                        <label class="nominee-option">
+                            <input type="radio" name="sound" value="Frankenstein">
+                            <span class="nominee-label">Frankenstein</span>
+                        </label>
+                        <label class="nominee-option">
+                            <input type="radio" name="sound" value="One Battle After Another">
+                            <span class="nominee-label">One Battle After Another</span>
+                        </label>
+                        <label class="nominee-option">
+                            <input type="radio" name="sound" value="Sinners">
+                            <span class="nominee-label">Sinners</span>
+                        </label>
+                        <label class="nominee-option">
+                            <input type="radio" name="sound" value="Sirât">
+                            <span class="nominee-label">Sirât</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Production Design -->
+                <div class="category">
+                    <div class="category-title">Production Design</div>
+                    <div class="nominees">
+                        <label class="nominee-option">
+                            <input type="radio" name="production-design" value="Tamara Deverell, Frankenstein">
+                            <span class="nominee-label">Tamara Deverell - Frankenstein</span>
+                        </label>
+                        <label class="nominee-option">
+                            <input type="radio" name="production-design" value="Fiona Crombie, Hamnet">
+                            <span class="nominee-label">Fiona Crombie - Hamnet</span>
+                        </label>
+                        <label class="nominee-option">
+                            <input type="radio" name="production-design" value="Jack Fisk, Marty Supreme">
+                            <span class="nominee-label">Jack Fisk - Marty Supreme</span>
+                        </label>
+                        <label class="nominee-option">
+                            <input type="radio" name="production-design" value="Florencia Martin, One Battle After Another">
+                            <span class="nominee-label">Florencia Martin - One Battle After Another</span>
+                        </label>
+                        <label class="nominee-option">
+                            <input type="radio" name="production-design" value="Hannah Beachler, Sinners">
+                            <span class="nominee-label">Hannah Beachler - Sinners</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Costume Design -->
+                <div class="category">
+                    <div class="category-title">Costume Design</div>
+                    <div class="nominees">
+                        <label class="nominee-option">
+                            <input type="radio" name="costume-design" value="Avatar: Fire and Ash">
+                            <span class="nominee-label">Avatar: Fire and Ash</span>
+                        </label>
+                        <label class="nominee-option">
+                            <input type="radio" name="costume-design" value="Frankenstein">
+                            <span class="nominee-label">Frankenstein</span>
+                        </label>
+                        <label class="nominee-option">
+                            <input type="radio" name="costume-design" value="Hamnet">
+                            <span class="nominee-label">Hamnet</span>
+                        </label>
+                        <label class="nominee-option">
+                            <input type="radio" name="costume-design" value="Marty Supreme">
+                            <span class="nominee-label">Marty Supreme</span>
+                        </label>
+                        <label class="nominee-option">
+                            <input type="radio" name="costume-design" value="Sinners">
+                            <span class="nominee-label">Sinners</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Visual Effects -->
+                <div class="category">
+                    <div class="category-title">Visual Effects</div>
+                    <div class="nominees">
+                        <label class="nominee-option">
+                            <input type="radio" name="visual-effects" value="Avatar: Fire and Ash">
+                            <span class="nominee-label">Avatar: Fire and Ash</span>
+                        </label>
+                        <label class="nominee-option">
+                            <input type="radio" name="visual-effects" value="F1">
+                            <span class="nominee-label">F1</span>
+                        </label>
+                        <label class="nominee-option">
+                            <input type="radio" name="visual-effects" value="Jurassic World Rebirth">
+                            <span class="nominee-label">Jurassic World Rebirth</span>
+                        </label>
+                        <label class="nominee-option">
+                            <input type="radio" name="visual-effects" value="The Lost Bus">
+                            <span class="nominee-label">The Lost Bus</span>
+                        </label>
+                        <label class="nominee-option">
+                            <input type="radio" name="visual-effects" value="Sinners">
+                            <span class="nominee-label">Sinners</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Makeup and Hairstyling -->
+                <div class="category">
+                    <div class="category-title">Makeup and Hairstyling</div>
+                    <div class="nominees">
+                        <label class="nominee-option">
+                            <input type="radio" name="makeup-hair" value="Frankenstein">
+                            <span class="nominee-label">Frankenstein</span>
+                        </label>
+                        <label class="nominee-option">
+                            <input type="radio" name="makeup-hair" value="Kokuho">
+                            <span class="nominee-label">Kokuho</span>
+                        </label>
+                        <label class="nominee-option">
+                            <input type="radio" name="makeup-hair" value="Sinners">
+                            <span class="nominee-label">Sinners</span>
+                        </label>
+                        <label class="nominee-option">
+                            <input type="radio" name="makeup-hair" value="The Smashing Machine">
+                            <span class="nominee-label">The Smashing Machine</span>
+                        </label>
+                        <label class="nominee-option">
+                            <input type="radio" name="makeup-hair" value="The Ugly Stepsister">
+                            <span class="nominee-label">The Ugly Stepsister</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Best Animated Short -->
+                <div class="category">
+                    <div class="category-title">Best Animated Short</div>
+                    <div class="nominees">
+                        <label class="nominee-option">
+                            <input type="radio" name="animated-short" value="Butterfly">
+                            <span class="nominee-label">Butterfly</span>
+                        </label>
+                        <label class="nominee-option">
+                            <input type="radio" name="animated-short" value="Forevergreen">
+                            <span class="nominee-label">Forevergreen</span>
+                        </label>
+                        <label class="nominee-option">
+                            <input type="radio" name="animated-short" value="The Girl Who Cried Pearls">
+                            <span class="nominee-label">The Girl Who Cried Pearls</span>
+                        </label>
+                        <label class="nominee-option">
+                            <input type="radio" name="animated-short" value="Retirement Plan">
+                            <span class="nominee-label">Retirement Plan</span>
+                        </label>
+                        <label class="nominee-option">
+                            <input type="radio" name="animated-short" value="The Three Sisters">
+                            <span class="nominee-label">The Three Sisters</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Best Documentary Short -->
+                <div class="category">
+                    <div class="category-title">Best Documentary Short</div>
+                    <div class="nominees">
+                        <label class="nominee-option">
+                            <input type="radio" name="documentary-short" value="All the Empty Rooms">
+                            <span class="nominee-label">All the Empty Rooms</span>
+                        </label>
+                        <label class="nominee-option">
+                            <input type="radio" name="documentary-short" value="Armed Only With a Camera: The Life and Death of Brent Renaud">
+                            <span class="nominee-label">Armed Only With a Camera: The Life and Death of Brent Renaud</span>
+                        </label>
+                        <label class="nominee-option">
+                            <input type="radio" name="documentary-short" value="Children No More: Were and Are Gone">
+                            <span class="nominee-label">Children No More: "Were and Are Gone"</span>
+                        </label>
+                        <label class="nominee-option">
+                            <input type="radio" name="documentary-short" value="The Devil Is Busy">
+                            <span class="nominee-label">The Devil Is Busy</span>
+                        </label>
+                        <label class="nominee-option">
+                            <input type="radio" name="documentary-short" value="Perfectly a Strangeness">
+                            <span class="nominee-label">Perfectly a Strangeness</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Best Live-Action Short -->
+                <div class="category">
+                    <div class="category-title">Best Live-Action Short</div>
+                    <div class="nominees">
+                        <label class="nominee-option">
+                            <input type="radio" name="live-action-short" value="Butcher's Stain">
+                            <span class="nominee-label">Butcher's Stain</span>
+                        </label>
+                        <label class="nominee-option">
+                            <input type="radio" name="live-action-short" value="A Friend of Dorothy">
+                            <span class="nominee-label">A Friend of Dorothy</span>
+                        </label>
+                        <label class="nominee-option">
+                            <input type="radio" name="live-action-short" value="Jane Austen's Period Drama">
+                            <span class="nominee-label">Jane Austen's Period Drama</span>
+                        </label>
+                        <label class="nominee-option">
+                            <input type="radio" name="live-action-short" value="The Singers">
+                            <span class="nominee-label">The Singers</span>
+                        </label>
+                        <label class="nominee-option">
+                            <input type="radio" name="live-action-short" value="Two People Exchanging Saliva">
+                            <span class="nominee-label">Two People Exchanging Saliva</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Buttons -->
+                <div class="buttons">
+                    <button type="submit" class="btn-submit">✓ Submit Ballot</button>
+                    <button type="reset" class="btn-reset">↻ Reset</button>
+                </div>
+            </form>
+
+            <div id="message" class="message"></div>
+
+            <!-- Results Section -->
+            <div style="margin-top: 30px; padding-top: 20px; border-top: 2px solid #f0f0f0;">
+                <button id="toggle-results" class="btn-submit" style="width: 100%; margin-bottom: 15px;">📊 View All Ballots (0)</button>
+                <div id="results-section" style="display: none;">
+                    <div id="results-content"></div>
+                </div>
+            </div>
+
+            <!-- Real Results Section -->
+            <div style="margin-top: 30px; padding-top: 20px; border-top: 2px solid #f0f0f0;">
+                <button id="toggle-real-results" class="btn-submit" style="width: 100%; margin-bottom: 15px;">🏆 Enter Real Results</button>
+                <div id="real-results-section" style="display: none;">
+                    <div style="background: #fff3cd; padding: 12px; border-radius: 8px; margin-bottom: 15px; color: #856404;">
+                        ℹ Fill in the actual winning nominees for each category to calculate scores
+                    </div>
+                    <form id="real-results-form" style="max-height: 400px; overflow-y: auto; padding-right: 10px;">
+                        <!-- Categories will be populated by JavaScript -->
+                    </form>
+                    <div style="display: flex; gap: 10px; margin-top: 15px;">
+                        <button type="button" id="save-real-results" class="btn-submit" style="flex: 1;">✓ Save Results</button>
+                        <button type="button" id="clear-real-results" class="btn-reset" style="flex: 1;">✕ Clear Results</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Leaderboard Section -->
+            <div style="margin-top: 30px; padding-top: 20px; border-top: 2px solid #f0f0f0;">
+                <button id="toggle-leaderboard" class="btn-submit" style="width: 100%; margin-bottom: 15px;">🥇 Leaderboard</button>
+                <div id="leaderboard-section" style="display: none;">
+                    <div id="leaderboard-content"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('ballot-form');
+        const message = document.getElementById('message');
+        const progressDiv = document.getElementById('progress');
+        const voterNameInput = document.getElementById('voter-name');
+
+        // All category names and their options
+        const categories = {
+            'actor-lead': {
+                name: 'Actor in a Leading Role',
+                options: [
+                    'Timothée Chalamet, Marty Supreme',
+                    'Leonardo DiCaprio, One Battle After Another',
+                    'Ethan Hawke, Blue Moon',
+                    'Michael B. Jordan, Sinners',
+                    'Wagner Moura, The Secret Agent'
+                ]
+            },
+            'actress-lead': {
+                name: 'Actress in a Leading Role',
+                options: [
+                    'Jessie Buckley, Hamnet',
+                    'Rose Byrne, If I Had Legs I\'d Kick You',
+                    'Kate Hudson, Song Sung Blue',
+                    'Renate Reinsve, Sentimental Value',
+                    'Emma Stone, Bugonia'
+                ]
+            },
+            'actress-support': {
+                name: 'Actress in a Supporting Role',
+                options: [
+                    'Elle Fanning, Sentimental Value',
+                    'Inga Ibsdotter Lilleaas, Sentimental Value',
+                    'Amy Madigan, Weapons',
+                    'Wunmi Mosaku, Sinners',
+                    'Teyana Taylor, One Battle After Another'
+                ]
+            },
+            'actor-support': {
+                name: 'Actor in a Supporting Role',
+                options: [
+                    'Benicio Del Toro, One Battle After Another',
+                    'Jacob Elordi, Frankenstein',
+                    'Delroy Lindo, Sinners',
+                    'Sean Penn, One Battle After Another',
+                    'Stellan Skarsgård, Sentimental Value'
+                ]
+            },
+            'directing': {
+                name: 'Directing',
+                options: [
+                    'Chloé Zhao, Hamnet',
+                    'Josh Safdie, Marty Supreme',
+                    'Paul Thomas Anderson, One Battle After Another',
+                    'Joachim Trier, Sentimental Value',
+                    'Ryan Coogler, Sinners'
+                ]
+            },
+            'cinematography': {
+                name: 'Cinematography',
+                options: ['Frankenstein', 'Marty Supreme', 'One Battle After Another', 'Sentimental Value', 'Sinners']
+            },
+            'casting': {
+                name: 'Best Casting',
+                options: ['Hamnet', 'Marty Supreme', 'One Battle After Another', 'The Secret Agent', 'Sinners']
+            },
+            'animated-feature': {
+                name: 'Animated Feature Film',
+                options: ['Arco', 'Elio', 'KPop Demon Hunters', 'Little Amélie or the Character of Rain', 'Zootopia 2']
+            },
+            'international-feature': {
+                name: 'International Feature Film',
+                options: ['The Secret Agent', 'It Was Just an Accident', 'Sentimental Value', 'Sirât', 'The Voice of Hind Rajab']
+            },
+            'documentary-feature': {
+                name: 'Documentary Feature Film',
+                options: ['The Alabama Solution', 'Come See Me in the Good Light', 'Cutting Through Rocks', 'Mr. Nobody Against Putin', 'The Perfect Neighbor']
+            },
+            'writing-original': {
+                name: 'Writing (Original Screenplay)',
+                options: [
+                    'Robert Kaplow, Blue Moon',
+                    'Jafar Panahi, It Was Just an Accident',
+                    'Ronald Bronstein & Josh Safdie, Marty Supreme',
+                    'Joachim Trier & Eskil Vogt, Sentimental Value',
+                    'Ryan Coogler, Sinners'
+                ]
+            },
+            'writing-adapted': {
+                name: 'Writing (Adapted Screenplay)',
+                options: [
+                    'Will Tracy, Bugonia',
+                    'Guillermo del Toro, Frankenstein',
+                    'Chloé Zhao & Maggie O\'Farrell, Hamnet',
+                    'Paul Thomas Anderson, One Battle After Another',
+                    'Clint Bentley & Greg Kwedar, Train Dreams'
+                ]
+            },
+            'film-editing': {
+                name: 'Film Editing',
+                options: [
+                    'Stephen Mirrione, F1',
+                    'Ronald Bronstein & Josh Safdie, Marty Supreme',
+                    'Andy Jurgensen, One Battle After Another',
+                    'Olivier Bugge Coutté, Sentimental Value',
+                    'Michael Shawver, Sinners'
+                ]
+            },
+            'music-score': {
+                name: 'Music (Original Score)',
+                options: ['Bugonia', 'Frankenstein', 'Hamnet', 'One Battle After Another', 'Sinners']
+            },
+            'music-song': {
+                name: 'Music (Original Song)',
+                options: [
+                    'Dear Me, Diane Warren: Relentless',
+                    'Golden, KPop Demon Hunters',
+                    'Highest 2 Lowest, Highest 2 Lowest',
+                    'I Lied To You, Sinners',
+                    'Sweet Dreams of Joy, Viva Verdi!',
+                    'Train Dreams, Train Dreams'
+                ]
+            },
+            'sound': {
+                name: 'Sound',
+                options: ['F1', 'Frankenstein', 'One Battle After Another', 'Sinners', 'Sirât']
+            },
+            'production-design': {
+                name: 'Production Design',
+                options: [
+                    'Tamara Deverell, Frankenstein',
+                    'Fiona Crombie, Hamnet',
+                    'Jack Fisk, Marty Supreme',
+                    'Florencia Martin, One Battle After Another',
+                    'Hannah Beachler, Sinners'
+                ]
+            },
+            'costume-design': {
+                name: 'Costume Design',
+                options: ['Avatar: Fire and Ash', 'Frankenstein', 'Hamnet', 'Marty Supreme', 'Sinners']
+            },
+            'visual-effects': {
+                name: 'Visual Effects',
+                options: ['Avatar: Fire and Ash', 'F1', 'Jurassic World Rebirth', 'The Lost Bus', 'Sinners']
+            },
+            'makeup-hair': {
+                name: 'Makeup and Hairstyling',
+                options: ['Frankenstein', 'Kokuho', 'Sinners', 'The Smashing Machine', 'The Ugly Stepsister']
+            },
+            'animated-short': {
+                name: 'Best Animated Short',
+                options: ['Butterfly', 'Forevergreen', 'The Girl Who Cried Pearls', 'Retirement Plan', 'The Three Sisters']
+            },
+            'documentary-short': {
+                name: 'Best Documentary Short',
+                options: [
+                    'All the Empty Rooms',
+                    'Armed Only With a Camera: The Life and Death of Brent Renaud',
+                    'Children No More: Were and Are Gone',
+                    'The Devil Is Busy',
+                    'Perfectly a Strangeness'
+                ]
+            },
+            'live-action-short': {
+                name: 'Best Live-Action Short',
+                options: ['Butcher\'s Stain', 'A Friend of Dorothy', 'Jane Austen\'s Period Drama', 'The Singers', 'Two People Exchanging Saliva']
+            }
+        };
+
+        // Update progress indicator
+        function updateProgress() {
+            const checked = form.querySelectorAll('input[type="radio"]:checked');
+            const totalCategories = 23;
+            const percentage = Math.round((checked.length / totalCategories) * 100);
+            progressDiv.textContent = `Progress: ${checked.length}/23 categories voted - ${percentage}%`;
+        }
+
+        // Add event listeners to all radio buttons
+        const inputs = form.querySelectorAll('input[type="radio"]');
+        inputs.forEach(input => {
+            input.addEventListener('change', function() {
+                const parent = this.closest('.nominee-option');
+                const categoryDiv = this.closest('.category');
+                categoryDiv.querySelectorAll('.nominee-option').forEach(opt => {
+                    opt.classList.remove('selected');
+                });
+                parent.classList.add('selected');
+                updateProgress();
+                saveVotes();
+            });
+        });
+
+        // Save votes to localStorage
+        function saveVotes() {
+            const votes = {};
+            inputs.forEach(input => {
+                if (input.checked) {
+                    votes[input.name] = input.value;
+                }
+            });
+            const name = voterNameInput.value || 'Anonymous';
+            localStorage.setItem('currentVotes', JSON.stringify(votes));
+            localStorage.setItem('currentVoterName', name);
+        }
+
+        // Load votes from localStorage
+        function loadVotes() {
+            const saved = localStorage.getItem('currentVotes');
+            const savedName = localStorage.getItem('currentVoterName');
+            
+            if (savedName) {
+                voterNameInput.value = savedName;
+            }
+            
+            if (saved) {
+                const votes = JSON.parse(saved);
+                for (const [key, value] of Object.entries(votes)) {
+                    const input = form.querySelector(`input[name="${key}"][value="${value}"]`);
+                    if (input) {
+                        input.checked = true;
+                        input.closest('.nominee-option').classList.add('selected');
+                    }
+                }
+                updateProgress();
+            }
+        }
+
+        // Handle form submission
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const voterName = voterNameInput.value.trim();
+            if (!voterName) {
+                message.textContent = '⚠ Please enter your name before submitting!';
+                message.style.background = '#fff3cd';
+                message.style.color = '#856404';
+                message.style.display = 'block';
+                return;
+            }
+
+            const votes = {};
+            inputs.forEach(input => {
+                if (input.checked) {
+                    votes[input.name] = input.value;
+                }
+            });
+            
+            if (Object.keys(votes).length === 0) {
+                message.textContent = '⚠ Please vote on at least one category!';
+                message.style.background = '#fff3cd';
+                message.style.color = '#856404';
+                message.style.display = 'block';
+                return;
+            }
+
+            const allBallots = JSON.parse(localStorage.getItem('allBallots') || '[]');
+            const ballot = {
+                name: voterName,
+                votes: votes,
+                timestamp: new Date().toLocaleString()
+            };
+            
+            allBallots.push(ballot);
+            localStorage.setItem('allBallots', JSON.stringify(allBallots));
+            
+            message.textContent = `✓ Ballot submitted by ${voterName}! Your votes for ${Object.keys(votes).length} categories have been saved. Total ballots: ${allBallots.length}`;
+            message.classList.add('success');
+            message.style.display = 'block';
+            
+            setTimeout(() => {
+                form.reset();
+                document.querySelectorAll('.nominee-option').forEach(opt => {
+                    opt.classList.remove('selected');
+                });
+                voterNameInput.value = '';
+                updateProgress();
+                localStorage.removeItem('currentVotes');
+                localStorage.removeItem('currentVoterName');
+                message.classList.remove('success');
+                message.style.display = 'none';
+                updateBallotCount();
+            }, 3000);
+        });
+
+        // Handle reset
+        form.addEventListener('reset', function() {
+            setTimeout(() => {
+                document.querySelectorAll('.nominee-option').forEach(opt => {
+                    opt.classList.remove('selected');
+                });
+                updateProgress();
+                localStorage.removeItem('currentVotes');
+                localStorage.removeItem('currentVoterName');
+            }, 0);
+        });
+
+        // Load votes on page load
+        loadVotes();
+
+        // Results section functionality
+        const toggleButton = document.getElementById('toggle-results');
+        const resultsSection = document.getElementById('results-section');
+        const resultsContent = document.getElementById('results-content');
+
+        function updateBallotCount() {
+            const allBallots = JSON.parse(localStorage.getItem('allBallots') || '[]');
+            toggleButton.textContent = `📊 View All Ballots (${allBallots.length})`;
+        }
+
+        function displayResults() {
+            const allBallots = JSON.parse(localStorage.getItem('allBallots') || '[]');
+            
+            if (allBallots.length === 0) {
+                resultsContent.innerHTML = '<p style="text-align: center; color: #999;">No ballots submitted yet.</p>';
+                return;
+            }
+
+            let html = '<div style="background: white;">';
+            
+            allBallots.forEach((ballot, index) => {
+                html += `
+                    <div style="background: #f9f9f9; padding: 15px; margin-bottom: 15px; border-radius: 8px; border-left: 4px solid #667eea;">
+                        <div style="font-weight: 600; color: #333; margin-bottom: 10px;">
+                            ${index + 1}. ${ballot.name}
+                            <span style="float: right; color: #999; font-size: 0.9em;">${ballot.timestamp}</span>
+                        </div>
+                        <div style="font-size: 0.9em; line-height: 1.8;">
+                `;
+                
+                for (const [categoryId, choice] of Object.entries(ballot.votes)) {
+                    const categoryName = categories[categoryId]?.name || categoryId;
+                    html += `<div style="color: #555;"><strong>${categoryName}:</strong> ${choice}</div>`;
+                }
+                
+                html += `</div></div>`;
+            });
+
+            html += '</div>';
+            resultsContent.innerHTML = html;
+        }
+
+        toggleButton.addEventListener('click', function() {
+            resultsSection.style.display = resultsSection.style.display === 'none' ? 'block' : 'none';
+            if (resultsSection.style.display === 'block') {
+                displayResults();
+            }
+        });
+
+        // Real Results section functionality
+        const toggleRealResultsBtn = document.getElementById('toggle-real-results');
+        const realResultsSection = document.getElementById('real-results-section');
+        const realResultsForm = document.getElementById('real-results-form');
+        const saveRealResultsBtn = document.getElementById('save-real-results');
+        const clearRealResultsBtn = document.getElementById('clear-real-results');
+
+        // Build real results form
+        function buildRealResultsForm() {
+            let html = '';
+            for (const [categoryId, categoryData] of Object.entries(categories)) {
+                html += `
+                    <div style="margin-bottom: 15px; padding: 12px; background: #f9f9f9; border-radius: 8px;">
+                        <label style="display: block; font-weight: 600; margin-bottom: 8px; color: #333;">
+                            ${categoryData.name}
+                        </label>
+                        <select id="result-${categoryId}" style="width: 100%; padding: 8px; border: 2px solid #e0e0e0; border-radius: 6px; font-size: 0.95em;">
+                            <option value="">-- Select Winner --</option>
+                            ${categoryData.options.map(opt => `<option value="${opt}">${opt}</option>`).join('')}
+                        </select>
+                    </div>
+                `;
+            }
+            realResultsForm.innerHTML = html;
+            loadRealResults();
+        }
+
+        // Load real results
+        function loadRealResults() {
+            const realResults = JSON.parse(localStorage.getItem('realResults') || '{}');
+            for (const [categoryId, winner] of Object.entries(realResults)) {
+                const select = document.getElementById(`result-${categoryId}`);
+                if (select) {
+                    select.value = winner;
+                }
+            }
+        }
+
+        // Save real results
+        saveRealResultsBtn.addEventListener('click', function() {
+            const realResults = {};
+            for (const categoryId of Object.keys(categories)) {
+                const select = document.getElementById(`result-${categoryId}`);
+                if (select && select.value) {
+                    realResults[categoryId] = select.value;
+                }
+            }
+            
+            if (Object.keys(realResults).length === 0) {
+                alert('Please select at least one winner!');
+                return;
+            }
+
+            localStorage.setItem('realResults', JSON.stringify(realResults));
+            alert(`✓ Real results saved for ${Object.keys(realResults).length} categories!`);
+            updateLeaderboard();
+        });
+
+        // Clear real results
+        clearRealResultsBtn.addEventListener('click', function() {
+            if (confirm('Are you sure you want to clear all real results?')) {
+                localStorage.removeItem('realResults');
+                buildRealResultsForm();
+                updateLeaderboard();
+                alert('Real results cleared!');
+            }
+        });
+
+        toggleRealResultsBtn.addEventListener('click', function() {
+            if (realResultsSection.style.display === 'none') {
+                realResultsSection.style.display = 'block';
+                buildRealResultsForm();
+            } else {
+                realResultsSection.style.display = 'none';
+            }
+        });
+
+        // Leaderboard functionality
+        const toggleLeaderboardBtn = document.getElementById('toggle-leaderboard');
+        const leaderboardSection = document.getElementById('leaderboard-section');
+        const leaderboardContent = document.getElementById('leaderboard-content');
+
+        function calculateScores() {
+            const realResults = JSON.parse(localStorage.getItem('realResults') || '{}');
+            const allBallots = JSON.parse(localStorage.getItem('allBallots') || '[]');
+
+            if (Object.keys(realResults).length === 0) {
+                return null;
+            }
+
+            const scores = [];
+            allBallots.forEach(ballot => {
+                let correctCount = 0;
+                let totalCategories = 0;
+                const details = {};
+
+                for (const [categoryId, realWinner] of Object.entries(realResults)) {
+                    totalCategories++;
+                    const prediction = ballot.votes[categoryId] || 'Not voted';
+                    const isCorrect = prediction === realWinner;
+                    if (isCorrect) correctCount++;
+                    details[categoryId] = {
+                        prediction,
+                        realWinner,
+                        isCorrect
+                    };
+                }
+
+                scores.push({
+                    name: ballot.name,
+                    timestamp: ballot.timestamp,
+                    correct: correctCount,
+                    total: totalCategories,
+                    percentage: Math.round((correctCount / totalCategories) * 100),
+                    details: details
+                });
+            });
+
+            // Sort by correct count (descending)
+            scores.sort((a, b) => b.correct - a.correct);
+            return scores;
+        }
+
+        function updateLeaderboard() {
+            const scores = calculateScores();
+            
+            if (!scores) {
+                leaderboardContent.innerHTML = '<p style="text-align: center; color: #999; padding: 20px;">💡 Enter real results to see the leaderboard!</p>';
+                toggleLeaderboardBtn.disabled = false;
+                return;
+            }
+
+            let html = '<div style="background: white;">';
+            
+            const medals = ['🥇', '🥈', '🥉'];
+            
+            scores.forEach((score, index) => {
+                const medal = index < 3 ? medals[index] : '•';
+                const bgColor = index === 0 ? '#fff8e1' : index === 1 ? '#f0f0f0' : index === 2 ? '#fde7d5' : 'white';
+                
+                html += `
+                    <div style="background: ${bgColor}; padding: 15px; margin-bottom: 12px; border-radius: 8px; border-left: 4px solid #667eea;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                            <div style="font-weight: 600; font-size: 1.1em; color: #333;">
+                                ${medal} ${index + 1}. ${score.name}
+                            </div>
+                            <div style="font-weight: 600; font-size: 1.2em; color: #667eea;">
+                                ${score.correct}/${score.total} (${score.percentage}%)
+                            </div>
+                        </div>
+                        <div style="font-size: 0.9em; color: #999;">
+                            ${score.timestamp}
+                        </div>
+                        <details style="margin-top: 10px; font-size: 0.9em; cursor: pointer;">
+                            <summary style="color: #667eea; font-weight: 500;">Show details</summary>
+                            <div style="margin-top: 10px; padding-top: 10px; border-top: 1px solid #ddd;">
+                `;
+                
+                for (const [categoryId, detail] of Object.entries(score.details)) {
+                    const categoryName = categories[categoryId]?.name || categoryId;
+                    const statusIcon = detail.isCorrect ? '✓' : '✗';
+                    const statusColor = detail.isCorrect ? '#28a745' : '#dc3545';
+                    
+                    html += `
+                        <div style="margin-bottom: 8px; padding: 8px; background: white; border-radius: 4px; border-left: 3px solid ${statusColor};">
+                            <div style="font-weight: 600; color: ${statusColor};">${statusIcon} ${categoryName}</div>
+                            <div style="color: #555; margin-top: 4px;">
+                                Voted: <strong>${detail.prediction}</strong><br>
+                                Winner: <strong>${detail.realWinner}</strong>
+                            </div>
+                        </div>
+                    `;
+                }
+                
+                html += `
+                            </div>
+                        </details>
+                    </div>
+                `;
+            });
+
+            html += '</div>';
+            leaderboardContent.innerHTML = html;
+        }
+
+        toggleLeaderboardBtn.addEventListener('click', function() {
+            leaderboardSection.style.display = leaderboardSection.style.display === 'none' ? 'block' : 'none';
+            if (leaderboardSection.style.display === 'block') {
+                updateLeaderboard();
+            }
+        });
+
+        // Update ballot count on page load
+        updateBallotCount();
+    </script>
+</body>
+</html>
